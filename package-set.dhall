@@ -2,9 +2,9 @@ let upstream = https://github.com/dfinity/vessel-package-set/releases/download/m
 let Package = { name : Text, version : Text, repo : Text, dependencies : List Text }
 
 let packages = [
-  { name = "stable-hash-map"
-  , repo = "https://github.com/canscale/StableHashMap"
-  , version = "v0.2.2"
+  { name = "btree"
+  , repo = "https://github.com/canscale/StableHeapBTreeMap"
+  , version = "v0.3.1"
   , dependencies = [ "base" ]
   },
   { name = "stable-rbtree"
@@ -19,7 +19,7 @@ let packages = [
   },
   { name = "candb"
   , repo = "git@github.com:canscale/CanDB.git"
-  , version = "0.0.0-alpha.2"
+  , version = "beta"
   , dependencies = [ "base" ]
   }
 ]
