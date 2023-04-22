@@ -1,0 +1,5 @@
+.dfx/
+!.dfx/local/canister_ids.json
+.vessel/
+node_modules/
+src/declarations/
