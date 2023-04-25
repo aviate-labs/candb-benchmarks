@@ -1,5 +1,4 @@
 import Prim "mo:⛔";
-import { countInstructions = count } = "mo:base/ExperimentalInternetComputer";
 
 import CanDB "mo:candb/CanDB";
 import Entity "mo:candb/Entity";
@@ -7,7 +6,7 @@ import Entity "mo:candb/Entity";
 actor {
   public shared func scale(t : Text) : async Text { t };
   private let initArgs : CanDB.DBInitOptions = {
-    pk = "nat";
+    pk = "pk";
     scalingOptions = {
       autoScalingHook = scale;
       sizeLimit = #count(999_000_000_000);
@@ -18,43 +17,31 @@ actor {
   stable var db = CanDB.init(initArgs);
 
   type ConsumableEntity = {
-    pk : Entity.PK;
     sk : Entity.SK;
     attributes : [(Entity.AttributeKey, Entity.AttributeValue)];
   };
 
-  private func _create(entity : ConsumableEntity) {
-    func createAttributesIfEntityDoesNotExist(attributeMap : ?Entity.AttributeMap) : Entity.AttributeMap {
-      switch (attributeMap) {
-        case null Entity.createAttributeMapFromKVPairs(entity.attributes);
-        case (?map) { map };
-      };
-    };
-
-    ignore CanDB.update(
-      db,
-      {
-        pk = entity.pk;
-        sk = entity.sk;
-        updateAttributeMapFunction = createAttributesIfEntityDoesNotExist;
-      },
-    );
+  public shared func put(entity : ConsumableEntity) : async Nat64 {
+    await* count(func() : async* () { await* CanDB.put(db, entity) });
   };
 
-  public shared func clear() : async () {
-    db := CanDB.init(initArgs);
+  public shared func batchPut(entities : [ConsumableEntity]) : async Nat64 {
+    await* count(func() : async* () { await* CanDB.batchPut(db, entities) });
   };
 
-  public func create(entity : ConsumableEntity) : async Nat64 {
-    count(func() = _create(entity));
+  public query func size() : async Nat { db.count };
+
+  public query func stats() : async (balance : Nat, heapSize : Nat) {
+    (Prim.cyclesBalance(), Prim.rts_heap_size());
   };
 
-  public func createAll(entities : [ConsumableEntity]) : async Nat64 {
-    count(func() = for (entity in entities.vals()) _create(entity));
-  };
-
-  public query func balance() : async Nat {
-    Prim.cyclesBalance();
-  };
+  private func count(instr : () -> async* ()) : async* Nat64 {
+    let init = Prim.performanceCounter(0);
+    let pre = Prim.performanceCounter(0);
+    await* instr();
+    let post = Prim.performanceCounter(0);
+    let overhead = pre - init; // Remove the overhead of the measurement.
+    post - pre - overhead;
+  }
 
 };

@@ -1,7 +1,7 @@
 {
     "scripts": {
         "check": "for i in src/*.mo ; do $(dfx cache show)/moc $(vessel sources 2>/dev/null) --check --hide-warnings $i ; done",
-        "benchmark": "mocha --timeout 3600000 -r ts-node/register 'benchmarks/**/*.bm.ts'"
+        "benchmark": "mocha -p=true -t=3600000 -r ts-node/register 'benchmarks/**/*.bm.ts'"
     },
     "devDependencies": {
         "@dfinity/agent": "^0.15.5",

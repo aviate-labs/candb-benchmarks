@@ -5,7 +5,10 @@
         "simple": {
             "type": "motoko",
             "main": "src/main.mo"
-        }
+        },
+        "sib": { "type": "motoko", "main": "src/main.mo" },
+        "siu1": { "type": "motoko", "main": "src/main.mo" },
+        "sip": { "type": "motoko", "main": "src/main.mo" }
     },
     "defaults": {
         "build": {

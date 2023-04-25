@@ -4,6 +4,8 @@
 npm run benchmark
 ```
 
+**NOTE**: Skips any tests for which the benchmark file already exists!
+
 ## Set Up
 
 ### `~/.config/dfx/networks.json`
