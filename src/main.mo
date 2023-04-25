@@ -25,6 +25,14 @@ actor {
     countSync(func() = CanDB.delete(db, { sk }));
   };
 
+  public query func get(sk : Entity.SK) : async () {
+    ignore CanDB.get(db, { sk });
+  };
+
+  public query func scan(sk : Entity.SK, limit : Nat, skLowerBound : Entity.SK, skUpperBound : Entity.SK) : async () {
+    ignore CanDB.scan(db, { ascending = null; limit; skLowerBound; skUpperBound });
+  };
+
   public shared func put(entity : ConsumableEntity) : async Nat64 {
     await* countAsync(func() : async* () { await* CanDB.put(db, entity) });
   };

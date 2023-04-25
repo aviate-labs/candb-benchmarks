@@ -1,21 +1,24 @@
 import { createActor } from "../src/declarations/simple";
 import { AttributeKey, AttributeValue } from "../src/declarations/simple/simple.did";
 import canisterIds from "../.dfx/local/canister_ids.json";
-import { Watcher, Writer, createEntities } from "./utils";
+import { Watcher, Writer, createEntities, createSK } from "./utils";
 
-const size = 5_000;
+const size = 5_000, scanSize = 500n;
 const attributes: [AttributeKey, AttributeValue][] = [["name", { "bool": true }]];
 
 // Insert 5k entities in a single update call, repeat until instruction limit is reached.
 export async function sid() {
     const simple = createActor(canisterIds.sib.local, { agentOptions: { host: "http://127.0.0.1:8000" } });
-    const watcher = new Watcher(simple), writer = new Writer("./out/sib.csv");
-    if (writer.fileExists()) {
-        console.log(`Skipped Insertion Benchmark (Small) (Batch): ${writer.path}`);
+    const watcher = new Watcher(simple);
+    const writerI = new Writer("./out/sib.csv");
+    const writerIQ = new Writer("./out/sib_q.csv", true);
+    const writerIS = new Writer("./out/sib_s.csv", true);
+    if (writerI.fileExists()) {
+        console.log(`Skipped Insertion Benchmark (Small) (Batch).`);
         return;
     }
-    writer.writeHeader();
-    console.log(`Started Insertion Benchmark (Small) (Batch): ${writer.path}`);
+    writerI.writeHeader(); writerIQ.writeHeader(); writerIS.writeHeader();
+    console.log(`Started Insertion Benchmark (Small) (Batch).`);
 
     let i = 0, instructionLimit = false;
     while (!instructionLimit) {
@@ -24,14 +27,24 @@ export async function sid() {
             watcher.startTimer();
             const c = await simple.batchPut(entities);
             const s = await watcher.stopTimer();
-            writer.writeLine((i + 1) * size, s, c);
+            writerI.writeLine((i + 1) * size, s, c);
+
+            watcher.startTimer();
+            await simple.get(entities[0].sk);
+            const sQ = await watcher.stopTimer();
+            writerIQ.writeLine((i + 1) * size, sQ, c);
+
+            watcher.startTimer();
+            await simple.scan(entities[0].sk, scanSize, createSK(i, 0), createSK(i, size - 1));
+            const sS = await watcher.stopTimer();
+            writerIS.writeLine((i + 1) * size, sS, c);
         } catch (e) {
             instructionLimit = true;
         }
         if (i != 0 && i % 10 == 0) console.log(`sid: ${i}/* ${await simple.size()}`);
         i++;
     }
-    console.log(`Finished Insertion Benchmark (Small) (Batch): ${writer.path}`);
+    console.log(`Finished Insertion Benchmark (Small) (Batch).`);
 }
 
 // Start at 0. At each batch insertion “checkpoint” (0, 5k, 10k, etc.) insert 1 more item, then remaining 4_999.

@@ -28,9 +28,13 @@ export function createEntity(index: number, attributes: [AttributeKey, Attribute
     return { sk: `pk#${pad(index, 4)}`, attributes }
 }
 
+export function createSK(index : number, j : number) : string {
+    return `pk#${index == 0 ? "" : index}${pad(j, 5)}`;
+}
+
 export function createEntities(index: number, size: number, attributes: [AttributeKey, AttributeValue][]): ConsumableEntity[] {
     return shuffle([...new Array(size)].map((_, j) => ({
-        sk: `pk#${index == 0 ? "" : index}${pad(j, 5)}`, attributes
+        sk: createSK(index, j), attributes
     })))
 };
 
@@ -100,26 +104,28 @@ export class Watcher {
 export class Writer {
 
     public path: string;
+    private excludeHeap: boolean;
 
-    constructor(path: string) {
+    constructor(path: string, excludeHeap: boolean = false) {
         this.path = path;
+        this.excludeHeap = excludeHeap;
     }
 
     public fileExists(): boolean {
         return existsSync(this.path);
     }
 
-    public writeHeader(excludeHeap: boolean = false) {
+    public writeHeader() {
         writeFileSync(
             this.path,
-            `Size,Time,Cycles,Price,Instructions${excludeHeap ? "" : ",HeapSize,TotalHeapSize"}\n`
+            `Size,Time,Cycles,Price,Instructions${this.excludeHeap ? "" : ",HeapSize,TotalHeapSize"}\n`
         );
     }
 
-    public writeLine(size: number, stats: Stats, instructions: bigint, excludeHeap: boolean = false) {
+    public writeLine(size: number, stats: Stats, instructions: bigint) {
         appendFileSync(
             this.path,
-            `${size},${stats.time},${stats.cycles},${priceInUSD(stats.cycles)},${instructions},${excludeHeap ? "" : `${stats.heapSize},${stats.totalHeapSize}`}\n`,
+            `${size},${stats.time},${stats.cycles},${priceInUSD(stats.cycles)},${instructions},${this.excludeHeap ? "" : `${stats.heapSize},${stats.totalHeapSize}`}\n`,
             { flag: "a" }
         );
     }

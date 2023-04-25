@@ -2,9 +2,9 @@ import { execSync } from "child_process";
 import canisterIds from "../.dfx/local/canister_ids.json";
 import { readFileSync, writeFileSync } from "fs";
 import { XDR } from "../src/xdr";
-import { sid, sip, siu1 } from "./small";
-import { mi1, mib } from "./medium";
-import { li1, lib } from "./large";
+import { sid, sip, siud1 } from "./small";
+import { mid1, mib } from "./medium";
+import { li1, ld1, lib } from "./large";
 
 const stdio = process.env.DEBUG ? "inherit" : "ignore";
 
@@ -38,9 +38,9 @@ export var priceICPInUSD = 0;
     };
     console.log("Done!");
 
-    await Promise.all([sid(), siu1(), sip()]);
-    await Promise.all([mib(), mi1()]);
-    await Promise.all([lib(), li1()]);
+    await Promise.all([sid(), siud1(), sip()]);
+    await Promise.all([mib(), mid1()]);
+    await Promise.all([lib(), ld1(), li1()]);
 
     execSync(`dfx stop`, { stdio: "ignore" });
 })()

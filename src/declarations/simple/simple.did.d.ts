@@ -39,8 +39,10 @@ export type Tree = { 'leaf' : null } |
 export interface _SERVICE {
   'batchPut' : ActorMethod<[Array<ConsumableEntity>], bigint>,
   'delete' : ActorMethod<[SK], bigint>,
+  'get' : ActorMethod<[SK], undefined>,
   'put' : ActorMethod<[ConsumableEntity], bigint>,
   'scale' : ActorMethod<[string], string>,
+  'scan' : ActorMethod<[SK, bigint, SK, SK], undefined>,
   'size' : ActorMethod<[], bigint>,
   'stats' : ActorMethod<[], [bigint, bigint]>,
 }

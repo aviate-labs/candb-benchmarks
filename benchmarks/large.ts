@@ -1,21 +1,23 @@
 import { createActor } from "../src/declarations/simple";
 import { AttributeKey, AttributeValue } from "../src/declarations/simple/simple.did";
 import canisterIds from "../.dfx/local/canister_ids.json";
-import { Watcher, Writer, createEntities, createEntity } from "./utils";
+import { Watcher, Writer, createEntities, createEntity, createSK } from "./utils";
 
-const size = 3;
+const size = 3, scanSize = 2n;
 const attributes: [AttributeKey, AttributeValue][] = [["name", { "blob": new Uint8Array(500 * 1024) }]];
 
 export async function lib() {
     const simple = createActor(canisterIds.lib.local, { agentOptions: { host: "http://127.0.0.1:8000" } });
     const watcher = new Watcher(simple);
-    const writer = new Writer("./out/lib.csv");
-    if (writer.fileExists()) {
-        console.log(`Skipped Insertion Benchmark (Large) (Batch): ${writer.path}`);
+    const writerI = new Writer("./out/lib.csv");
+    const writerIQ = new Writer("./out/lib_q.csv", true);
+    const writerIS = new Writer("./out/lib_s.csv", true);
+    if (writerI.fileExists()) {
+        console.log(`Skipped Insertion Benchmark (Large) (Batch).`);
         return;
     }
-    writer.writeHeader();
-    console.log(`Started Insertion Benchmark (Large) (Batch): ${writer.path}`);
+    writerI.writeHeader(); writerIQ.writeHeader(); writerIS.writeHeader();
+    console.log(`Started Insertion Benchmark (Large) (Batch).`);
 
     let i = 0, instructionLimit = false;
     while (!instructionLimit) {
@@ -24,14 +26,24 @@ export async function lib() {
             watcher.startTimer();
             const c = await simple.batchPut(entities);
             const s = await watcher.stopTimer();
-            writer.writeLine((i + 1) * size, s, c);
+            writerI.writeLine((i + 1) * size, s, c);
+
+            watcher.startTimer();
+            await simple.get(entities[0].sk);
+            const sQ = await watcher.stopTimer();
+            writerIQ.writeLine((i + 1) * size, sQ, c);
+
+            watcher.startTimer();
+            await simple.scan(entities[0].sk, scanSize, createSK(i, 0), createSK(i, size - 1));
+            const sS = await watcher.stopTimer();
+            writerIS.writeLine((i + 1) * size, sS, c);
         } catch (e) {
             instructionLimit = true;
         }
         if (i != 0 && i % 10 == 0) console.log(`lib: ${i}/* ${await simple.size()}`);
         i++;
     }
-    console.log(`Finished Insertion Benchmark (Large) (Batch): ${writer.path}`);
+    console.log(`Finished Insertion Benchmark (Large) (Batch).`);
 }
 
 export async function ld1() {
