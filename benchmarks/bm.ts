@@ -2,6 +2,9 @@ import { execSync } from "child_process";
 import canisterIds from "../.dfx/local/canister_ids.json";
 import { readFileSync, writeFileSync } from "fs";
 import { XDR } from "../src/xdr";
+import { sid, sip, siu1 } from "./small";
+import { mi1, mib } from "./medium";
+import { li1, lib } from "./large";
 
 const stdio = process.env.DEBUG ? "inherit" : "ignore";
 
@@ -9,7 +12,7 @@ export const SDR = 1.35;
 export var cyclesPerICP = 0;
 export var priceICPInUSD = 0;
 
-before(async () => {
+(async () => {
     const { data } = await XDR.get_icp_xdr_conversion_rate();
     cyclesPerICP = Number(data.xdr_permyriad_per_icp) * 1_000_000_000_000_000;
     const cyclesPerICPInT = parseFloat(data.xdr_permyriad_per_icp.toString()) / 10_000;
@@ -17,8 +20,7 @@ before(async () => {
 
     priceICPInUSD = cyclesPerICPInT * SDR;
     console.log(`ICP: ${priceICPInUSD} USD.`);
-    console.log("\n\n");
-    
+
     execSync(`dfx stop`, { stdio: "ignore" });
     console.log("Starting local network... (this may take a while)");
     execSync(`dfx start --artificial-delay=0 --background --clean`, { stdio });
@@ -35,8 +37,10 @@ before(async () => {
         writeFileSync(filePath, index.slice(0, -2).join("\n"))
     };
     console.log("Done!");
-});
 
-after(() => {
+    await Promise.all([sid(), siu1(), sip()]);
+    await Promise.all([mib(), mi1()]);
+    await Promise.all([lib(), li1()]);
+
     execSync(`dfx stop`, { stdio: "ignore" });
-});
+})()

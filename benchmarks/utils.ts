@@ -1,7 +1,8 @@
 import { ActorSubclass } from "@dfinity/agent";
 import { stats } from "../src/stats";
-import { cyclesPerICP, priceICPInUSD } from "./setup.bm";
+import { cyclesPerICP, priceICPInUSD } from "./bm";
 import { appendFileSync, existsSync, writeFileSync } from "fs";
+import { AttributeKey, AttributeValue, ConsumableEntity } from "../src/declarations/simple/simple.did";
 
 export function formatCycles(cycles: bigint): string {
     // Format cycles as a string with underscores every 3 digits.
@@ -22,6 +23,16 @@ export function formatCyclesShort(cycles: bigint): string {
 export function priceInUSD(cycles: bigint): number {
     return Number(cycles) / cyclesPerICP * priceICPInUSD;
 }
+
+export function createEntity(index: number, attributes: [AttributeKey, AttributeValue][]): ConsumableEntity {
+    return { sk: `pk#${pad(index, 4)}`, attributes }
+}
+
+export function createEntities(index: number, size: number, attributes: [AttributeKey, AttributeValue][]): ConsumableEntity[] {
+    return shuffle([...new Array(size)].map((_, j) => ({
+        sk: `pk#${index == 0 ? "" : index}${pad(j, 4)}`, attributes
+    })))
+};
 
 export function pad(num: number, size: number): string {
     let s = num.toString();
@@ -56,7 +67,7 @@ export type Stats = {
 
 // This class is used to measure the time and cycles used by a function.
 export class Watcher {
-    
+
     private actor: ActorSubclass<stats>;
     private startTime: bigint;
     private startCycles: bigint;
