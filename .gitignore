@@ -3,3 +3,4 @@
 .vessel/
 node_modules/
 src/declarations/
+!src/declarations/simple/

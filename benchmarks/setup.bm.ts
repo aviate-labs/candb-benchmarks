@@ -20,8 +20,11 @@ before(async () => {
     console.log("\n\n");
     
     execSync(`dfx stop`, { stdio: "ignore" });
-    execSync(`dfx start --background --clean`, { stdio });
+    console.log("Starting local network... (this may take a while)");
+    execSync(`dfx start --artificial-delay=0 --background --clean`, { stdio });
+    console.log("Deploying canisters...");
     execSync(`dfx deploy`, { stdio });
+    console.log("Generating declarations...");
     execSync(`dfx generate`, { stdio });
 
     // Remove the last line of each index.js file.
@@ -31,6 +34,7 @@ before(async () => {
         const index = readFileSync(filePath, "utf-8").split("\n");
         writeFileSync(filePath, index.slice(0, -2).join("\n"))
     };
+    console.log("Done!");
 });
 
 after(() => {

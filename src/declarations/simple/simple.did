@@ -1,0 +1,70 @@
+type Tree = 
+ variant {
+   leaf;
+   node:
+    record {
+      Color;
+      Tree;
+      record {
+        text;
+        opt AttributeValueRBTreeValue;
+      };
+      Tree;
+    };
+ };
+type SK = text;
+type ConsumableEntity = 
+ record {
+   attributes: vec record {
+                     AttributeKey;
+                     AttributeValue;
+                   };
+   sk: SK;
+ };
+type Color = 
+ variant {
+   B;
+   R;
+ };
+type AttributeValueRBTreeValue = 
+ variant {
+   arrayBool: vec bool;
+   arrayFloat: vec float64;
+   arrayInt: vec int;
+   arrayText: vec text;
+   "blob": blob;
+   "bool": bool;
+   float: float64;
+   "int": int;
+   "text": text;
+   tuple: vec AttributeValuePrimitive;
+ };
+type AttributeValuePrimitive = 
+ variant {
+   "bool": bool;
+   float: float64;
+   "int": int;
+   "text": text;
+ };
+type AttributeValue = 
+ variant {
+   arrayBool: vec bool;
+   arrayFloat: vec float64;
+   arrayInt: vec int;
+   arrayText: vec text;
+   "blob": blob;
+   "bool": bool;
+   float: float64;
+   "int": int;
+   "text": text;
+   tree: Tree;
+   tuple: vec AttributeValuePrimitive;
+ };
+type AttributeKey = text;
+service : {
+  batchPut: (vec ConsumableEntity) -> (nat64);
+  put: (ConsumableEntity) -> (nat64);
+  scale: (text) -> (text);
+  size: () -> (nat) query;
+  stats: () -> (nat, nat) query;
+}

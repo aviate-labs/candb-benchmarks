@@ -1,14 +1,21 @@
 {
     "version": 1,
-    "dfx": "0.13.1",
+    "dfx": "0.14.0-beta.0",
     "canisters": {
         "simple": {
             "type": "motoko",
             "main": "src/main.mo"
         },
+
         "sib": { "type": "motoko", "main": "src/main.mo" },
         "siu1": { "type": "motoko", "main": "src/main.mo" },
-        "sip": { "type": "motoko", "main": "src/main.mo" }
+        "sip": { "type": "motoko", "main": "src/main.mo" },
+
+        "mib": { "type": "motoko", "main": "src/main.mo" },
+        "mi1": { "type": "motoko", "main": "src/main.mo" },
+
+        "lib": { "type": "motoko", "main": "src/main.mo" },
+        "li1": { "type": "motoko", "main": "src/main.mo" }
     },
     "defaults": {
         "build": {

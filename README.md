@@ -8,6 +8,10 @@ npm run benchmark
 
 ## Set Up
 
+### No Artificial Delay
+
+**NOTE**: The artificial delay has been set to zero, which means the actual response times might differ.
+
 ### `~/.config/dfx/networks.json`
 
 ```json
@@ -17,4 +21,12 @@ npm run benchmark
     "type": "ephemeral"
   }
 }
+```
+
+### Install a Specific DFX Version
+
+**NOTE**: Minimal requirement `0.14.0-beta.0`!
+
+```shell
+DFX_VERSION=0.14.0-beta.0 sh -ci "$(curl -sSL https://internetcomputer.org/install.sh)"
 ```

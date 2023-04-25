@@ -1,6 +1,7 @@
 import { ActorSubclass } from "@dfinity/agent";
 import { stats } from "../src/stats";
 import { cyclesPerICP, priceICPInUSD } from "./setup.bm";
+import { appendFileSync, existsSync, writeFileSync } from "fs";
 
 export function formatCycles(cycles: bigint): string {
     // Format cycles as a string with underscores every 3 digits.
@@ -55,6 +56,7 @@ export type Stats = {
 
 // This class is used to measure the time and cycles used by a function.
 export class Watcher {
+    
     private actor: ActorSubclass<stats>;
     private startTime: bigint;
     private startCycles: bigint;
@@ -81,4 +83,27 @@ export class Watcher {
         const heapSize = stats[1] - this.startHeapSize;
         return { time, cycles, heapSize, totalHeapSize: stats[1] };
     };
+
+}
+
+export class Writer {
+
+    public path: string;
+
+    constructor(path: string) {
+        this.path = path;
+    }
+
+    public fileExists(): boolean {
+        return existsSync(this.path);
+    }
+
+    public writeHeader() {
+        writeFileSync(this.path, "Size,Time,Cycles,Price,Instructions,HeapSize,TotalHeapSize\n");
+    }
+
+    public writeLine(size: number, stats: Stats, instructions: bigint) {
+        appendFileSync(this.path, `${size},${stats.time},${stats.cycles},${priceInUSD(stats.cycles)},${instructions},${stats.heapSize},${stats.totalHeapSize}\n`, { flag: "a" });
+    }
+
 }
