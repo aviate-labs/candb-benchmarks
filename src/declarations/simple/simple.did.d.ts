@@ -38,6 +38,7 @@ export type Tree = { 'leaf' : null } |
   { 'node' : [Color, Tree, [string, [] | [AttributeValueRBTreeValue]], Tree] };
 export interface _SERVICE {
   'batchPut' : ActorMethod<[Array<ConsumableEntity>], bigint>,
+  'delete' : ActorMethod<[SK], bigint>,
   'put' : ActorMethod<[ConsumableEntity], bigint>,
   'scale' : ActorMethod<[string], string>,
   'size' : ActorMethod<[], bigint>,

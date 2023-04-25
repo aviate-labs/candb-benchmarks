@@ -30,7 +30,7 @@ export function createEntity(index: number, attributes: [AttributeKey, Attribute
 
 export function createEntities(index: number, size: number, attributes: [AttributeKey, AttributeValue][]): ConsumableEntity[] {
     return shuffle([...new Array(size)].map((_, j) => ({
-        sk: `pk#${index == 0 ? "" : index}${pad(j, 4)}`, attributes
+        sk: `pk#${index == 0 ? "" : index}${pad(j, 5)}`, attributes
     })))
 };
 
@@ -109,12 +109,19 @@ export class Writer {
         return existsSync(this.path);
     }
 
-    public writeHeader() {
-        writeFileSync(this.path, "Size,Time,Cycles,Price,Instructions,HeapSize,TotalHeapSize\n");
+    public writeHeader(excludeHeap: boolean = false) {
+        writeFileSync(
+            this.path,
+            `Size,Time,Cycles,Price,Instructions${excludeHeap ? "" : ",HeapSize,TotalHeapSize"}\n`
+        );
     }
 
-    public writeLine(size: number, stats: Stats, instructions: bigint) {
-        appendFileSync(this.path, `${size},${stats.time},${stats.cycles},${priceInUSD(stats.cycles)},${instructions},${stats.heapSize},${stats.totalHeapSize}\n`, { flag: "a" });
+    public writeLine(size: number, stats: Stats, instructions: bigint, excludeHeap: boolean = false) {
+        appendFileSync(
+            this.path,
+            `${size},${stats.time},${stats.cycles},${priceInUSD(stats.cycles)},${instructions},${excludeHeap ? "" : `${stats.heapSize},${stats.totalHeapSize}`}\n`,
+            { flag: "a" }
+        );
     }
 
 }

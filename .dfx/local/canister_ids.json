@@ -1,29 +1,32 @@
 {
   "__Candid_UI": {
-    "local": "asrmz-lmaaa-aaaaa-qaaeq-cai"
+    "local": "a3shf-5eaaa-aaaaa-qaafa-cai"
   },
-  "li1": {
+  "ld1": {
     "local": "bkyz2-fmaaa-aaaaa-qaaaq-cai"
   },
-  "lib": {
+  "li1": {
     "local": "bd3sg-teaaa-aaaaa-qaaba-cai"
   },
-  "mi1": {
+  "lib": {
     "local": "be2us-64aaa-aaaaa-qaabq-cai"
   },
   "mib": {
     "local": "br5f7-7uaaa-aaaaa-qaaca-cai"
   },
-  "sib": {
+  "mid1": {
     "local": "bw4dl-smaaa-aaaaa-qaacq-cai"
   },
-  "simple": {
+  "sib": {
     "local": "b77ix-eeaaa-aaaaa-qaada-cai"
   },
-  "sip": {
+  "simple": {
     "local": "by6od-j4aaa-aaaaa-qaadq-cai"
   },
-  "siu1": {
+  "sip": {
     "local": "avqkn-guaaa-aaaaa-qaaea-cai"
+  },
+  "siud1": {
+    "local": "asrmz-lmaaa-aaaaa-qaaeq-cai"
   }
 }

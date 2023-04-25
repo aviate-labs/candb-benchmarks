@@ -51,6 +51,7 @@ export const idlFactory = ({ IDL }) => {
   });
   return IDL.Service({
     'batchPut' : IDL.Func([IDL.Vec(ConsumableEntity)], [IDL.Nat64], []),
+    'delete' : IDL.Func([SK], [IDL.Nat64], []),
     'put' : IDL.Func([ConsumableEntity], [IDL.Nat64], []),
     'scale' : IDL.Func([IDL.Text], [IDL.Text], []),
     'size' : IDL.Func([], [IDL.Nat], ['query']),

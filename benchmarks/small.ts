@@ -35,16 +35,18 @@ export async function sid() {
 }
 
 // Start at 0. At each batch insertion “checkpoint” (0, 5k, 10k, etc.) insert 1 more item, then remaining 4_999.
-export async function siu1() {
-    const simple = createActor(canisterIds.siu1.local, { agentOptions: { host: "http://127.0.0.1:8000" } });
+export async function siud1() {
+    const simple = createActor(canisterIds.siud1.local, { agentOptions: { host: "http://127.0.0.1:8000" } });
     const watcher = new Watcher(simple);
-    const writerI = new Writer("./out/si1.csv"), writerU = new Writer("./out/su1.csv");
-    if (writerI.fileExists() && writerU.fileExists()) {
-        console.log(`Skipped Insertion/Update Benchmark (Small) (1): ${writerI.path} ${writerU.path}`);
+    const writerI = new Writer("./out/si1.csv");
+    const writerU = new Writer("./out/su1.csv");
+    const writerD = new Writer("./out/sd1.csv");
+    if (writerI.fileExists() && writerU.fileExists() && writerD.fileExists()) {
+        console.log(`Skipped Insertion/Update/Delete Benchmark (Small) (1): ${writerI.path} ${writerU.path} ${writerD.path}`);
         return;
     }
-    writerI.writeHeader(); writerU.writeHeader();
-    console.log(`Started Insertion/Update Benchmark (Small) (1): ${writerI.path} ${writerU.path}`);
+    writerI.writeHeader(); writerU.writeHeader(); writerD.writeHeader();
+    console.log(`Started Insertion/Update Benchmark (Small) (1): ${writerI.path} ${writerU.path} ${writerD.path}`);
 
     let i = 0, instructionLimit = false;
     while (!instructionLimit) {
@@ -60,14 +62,19 @@ export async function siu1() {
             const sU = await watcher.stopTimer();
             writerU.writeLine(i * size + 1, sU, cU);
 
-            await simple.batchPut(entities.slice(1));
+            watcher.startTimer();
+            const cD = await simple.delete(entities[0].sk);
+            const sD = await watcher.stopTimer();
+            writerU.writeLine(i * size + 1, sD, cD);
+
+            await simple.batchPut(entities);
         } catch (e) {
             instructionLimit = true;
         }
-        if (i != 0 && i % 10 == 0) console.log(`siu1: ${i}/* ${await simple.size()}`);
+        if (i != 0 && i % 10 == 0) console.log(`siud1: ${i}/* ${await simple.size()}`);
         i++;
     }
-    console.log(`Finished Insertion/Update Benchmark (Small) (1): ${writerI.path} ${writerU.path}`);
+    console.log(`Finished Insertion/Update Benchmark (Small) (1): ${writerI.path} ${writerU.path} ${writerD.path}`);
 }
 
 // Start at 0. At each batch insertion “checkpoint” (0, 5k, 10k, etc.) make 100 calls in parallel

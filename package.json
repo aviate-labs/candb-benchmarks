@@ -1,7 +1,8 @@
 {
     "scripts": {
+        "benchmarks": "npx ts-node benchmarks/bm.ts",
         "check": "for i in src/*.mo ; do $(dfx cache show)/moc $(vessel sources 2>/dev/null) --check --hide-warnings $i ; done",
-        "benchmarks": "npx ts-node benchmarks/bm.ts"
+        "generate": "npx ts-node generate.ts"
     },
     "devDependencies": {
         "@dfinity/agent": "^0.15.5",

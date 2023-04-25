@@ -36,16 +36,17 @@ export async function mib() {
 }
 
 // Start at 0. At each batch insertion “checkpoint” insert 1 more item, then remaining 49.
-export async function mi1() {
-    const simple = createActor(canisterIds.mi1.local, { agentOptions: { host: "http://127.0.0.1:8000" } });
+export async function mid1() {
+    const simple = createActor(canisterIds.mid1.local, { agentOptions: { host: "http://127.0.0.1:8000" } });
     const watcher = new Watcher(simple);
-    const writer = new Writer("./out/mi1.csv")
-    if (writer.fileExists()) {
-        console.log(`Skipped Insertion Benchmark (Medium) (1): ${writer.path}`);
+    const writerI = new Writer("./out/mi1.csv");
+    const writerD = new Writer("./out/md1.csv");
+    if (writerI.fileExists() && writerD.fileExists()) {
+        console.log(`Skipped Insertion Benchmark (Medium) (1): ${writerI.path}, ${writerD.path}`);
         return;
     }
-    writer.writeHeader();
-    console.log(`Started Insertion Benchmark (Medium) (1): ${writer.path}`);
+    writerI.writeHeader(); writerD.writeHeader();
+    console.log(`Started Insertion Benchmark (Medium) (1): ${writerI.path}, ${writerD.path}`);
 
     let i = 0, instructionLimit = false;
     while (!instructionLimit) {
@@ -54,14 +55,19 @@ export async function mi1() {
             watcher.startTimer();
             const cI = await simple.put(entities[0]);
             const sI = await watcher.stopTimer();
-            writer.writeLine(i * size + 1, sI, cI);
+            writerI.writeLine(i * size + 1, sI, cI);
 
-            await simple.batchPut(entities.slice(1));
+            watcher.startTimer();
+            const cD = await simple.delete(entities[0].sk);
+            const sD = await watcher.stopTimer();
+            writerI.writeLine(i * size + 1, sD, cD);
+
+            await simple.batchPut(entities);
         } catch (e) {
             instructionLimit = true;
         }
-        if (i != 0 && i % 10 == 0) console.log(`mi1: ${i}/* ${await simple.size()}`);
+        if (i != 0 && i % 10 == 0) console.log(`mid1: ${i}/* ${await simple.size()}`);
         i++;
     }
-    console.log(`Finished Insertion Benchmark (Medium) (1): ${writer.path}`);
+    console.log(`Finished Insertion Benchmark (Medium) (1): ${writerI.path} ${writerD.path}`);
 }

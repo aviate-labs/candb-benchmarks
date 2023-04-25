@@ -63,6 +63,7 @@ type AttributeValue =
 type AttributeKey = text;
 service : {
   batchPut: (vec ConsumableEntity) -> (nat64);
+  delete: (SK) -> (nat64);
   put: (ConsumableEntity) -> (nat64);
   scale: (text) -> (text);
   size: () -> (nat) query;

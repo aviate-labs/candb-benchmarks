@@ -1,6 +1,7 @@
 .dfx/
 !.dfx/local/canister_ids.json
 .vessel/
+dist/
 node_modules/
 src/declarations/
 !src/declarations/simple/

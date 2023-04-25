@@ -8,13 +8,14 @@
         },
 
         "sib": { "type": "motoko", "main": "src/main.mo" },
-        "siu1": { "type": "motoko", "main": "src/main.mo" },
+        "siud1": { "type": "motoko", "main": "src/main.mo" },
         "sip": { "type": "motoko", "main": "src/main.mo" },
 
         "mib": { "type": "motoko", "main": "src/main.mo" },
-        "mi1": { "type": "motoko", "main": "src/main.mo" },
+        "mid1": { "type": "motoko", "main": "src/main.mo" },
 
         "lib": { "type": "motoko", "main": "src/main.mo" },
+        "ld1": { "type": "motoko", "main": "src/main.mo" },
         "li1": { "type": "motoko", "main": "src/main.mo" }
     },
     "defaults": {

@@ -21,12 +21,16 @@ actor {
     attributes : [(Entity.AttributeKey, Entity.AttributeValue)];
   };
 
+  public shared func delete(sk : Entity.SK) : async Nat64 {
+    countSync(func() = CanDB.delete(db, { sk }));
+  };
+
   public shared func put(entity : ConsumableEntity) : async Nat64 {
-    await* count(func() : async* () { await* CanDB.put(db, entity) });
+    await* countAsync(func() : async* () { await* CanDB.put(db, entity) });
   };
 
   public shared func batchPut(entities : [ConsumableEntity]) : async Nat64 {
-    await* count(func() : async* () { await* CanDB.batchPut(db, entities) });
+    await* countAsync(func() : async* () { await* CanDB.batchPut(db, entities) });
   };
 
   public query func size() : async Nat { db.count };
@@ -35,13 +39,22 @@ actor {
     (Prim.cyclesBalance(), Prim.rts_heap_size());
   };
 
-  private func count(instr : () -> async* ()) : async* Nat64 {
+  private func countSync(instr : () -> ()) : Nat64 {
+    let init = Prim.performanceCounter(0);
+    let pre = Prim.performanceCounter(0);
+    instr();
+    let post = Prim.performanceCounter(0);
+    let overhead = pre - init; // Remove the overhead of the measurement.
+    post - pre - overhead;
+  };
+
+  private func countAsync(instr : () -> async* ()) : async* Nat64 {
     let init = Prim.performanceCounter(0);
     let pre = Prim.performanceCounter(0);
     await* instr();
     let post = Prim.performanceCounter(0);
     let overhead = pre - init; // Remove the overhead of the measurement.
     post - pre - overhead;
-  }
+  };
 
 };
