@@ -104,11 +104,11 @@ export class Watcher {
 export class Writer {
 
     public path: string;
-    private excludeHeap: boolean;
+    private query: boolean;
 
-    constructor(path: string, excludeHeap: boolean = false) {
+    constructor(path: string, query: boolean = false) {
         this.path = path;
-        this.excludeHeap = excludeHeap;
+        this.query = query;
     }
 
     public fileExists(): boolean {
@@ -118,14 +118,14 @@ export class Writer {
     public writeHeader() {
         writeFileSync(
             this.path,
-            `Size,Time,Cycles,Price,Instructions${this.excludeHeap ? "" : ",HeapSize,TotalHeapSize"}\n`
+            `Size,Time${this.query ? "" :",Cycles,Price"},Instructions${this.query ? "" : ",HeapSize,TotalHeapSize"}\n`
         );
     }
 
     public writeLine(size: number, stats: Stats, instructions: bigint) {
         appendFileSync(
             this.path,
-            `${size},${stats.time},${stats.cycles},${priceInUSD(stats.cycles)},${instructions},${this.excludeHeap ? "" : `${stats.heapSize},${stats.totalHeapSize}`}\n`,
+            `${size},${stats.time}${this.query ? "" : `,${stats.cycles},${priceInUSD(stats.cycles)}`},${instructions}${this.query ? "" : `,${stats.heapSize},${stats.totalHeapSize}`}\n`,
             { flag: "a" }
         );
     }

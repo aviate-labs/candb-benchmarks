@@ -2,7 +2,7 @@ import { execSync } from "child_process";
 import canisterIds from "../.dfx/local/canister_ids.json";
 import { readFileSync, writeFileSync } from "fs";
 import { XDR } from "../src/xdr";
-import { sid, sip, siud1 } from "./small";
+import { sib, sip, siud1 } from "./small";
 import { mid1, mib } from "./medium";
 import { li1, ld1, lib } from "./large";
 
@@ -38,7 +38,7 @@ export var priceICPInUSD = 0;
     };
     console.log("Done!");
 
-    await Promise.all([sid(), siud1(), sip()]);
+    await Promise.all([sib(), siud1(), sip()]);
     await Promise.all([mib(), mid1()]);
     await Promise.all([lib(), ld1(), li1()]);
 

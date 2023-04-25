@@ -7,7 +7,7 @@ const size = 5_000, scanSize = 500n;
 const attributes: [AttributeKey, AttributeValue][] = [["name", { "bool": true }]];
 
 // Insert 5k entities in a single update call, repeat until instruction limit is reached.
-export async function sid() {
+export async function sib() {
     const simple = createActor(canisterIds.sib.local, { agentOptions: { host: "http://127.0.0.1:8000" } });
     const watcher = new Watcher(simple);
     const writerI = new Writer("./out/sib.csv");
@@ -39,9 +39,10 @@ export async function sid() {
             const sS = await watcher.stopTimer();
             writerIS.writeLine((i + 1) * size, sS, c);
         } catch (e) {
+            console.log(`Error: ${e}`);
             instructionLimit = true;
         }
-        if (i != 0 && i % 10 == 0) console.log(`sid: ${i}/* ${await simple.size()}`);
+        if (i != 0 && i % 10 == 0) console.log(`sib: ${i}/* ${await simple.size()}`);
         i++;
     }
     console.log(`Finished Insertion Benchmark (Small) (Batch).`);
@@ -78,10 +79,11 @@ export async function siud1() {
             watcher.startTimer();
             const cD = await simple.delete(entities[0].sk);
             const sD = await watcher.stopTimer();
-            writerU.writeLine(i * size + 1, sD, cD);
+            writerD.writeLine(i * size + 1, sD, cD);
 
             await simple.batchPut(entities);
         } catch (e) {
+            console.log(`Error: ${e}`);
             instructionLimit = true;
         }
         if (i != 0 && i % 10 == 0) console.log(`siud1: ${i}/* ${await simple.size()}`);
@@ -116,6 +118,7 @@ export async function sip() {
 
             await simple.batchPut(entities.slice(100));
         } catch (e) {
+            console.log(`Error: ${e}`);
             instructionLimit = true;
         }
         if (i != 0 && i % 10 == 0) console.log(`sip: ${i}/* ${await simple.size()}`);

@@ -38,6 +38,7 @@ export async function lib() {
             const sS = await watcher.stopTimer();
             writerIS.writeLine((i + 1) * size, sS, c);
         } catch (e) {
+            console.log(`Error: ${e}`);
             instructionLimit = true;
         }
         if (i != 0 && i % 10 == 0) console.log(`lib: ${i}/* ${await simple.size()}`);
@@ -68,6 +69,7 @@ export async function ld1() {
             const sD = await watcher.stopTimer();
             writerD.writeLine(i * size + 1, sD, cD);
         } catch (e) {
+            console.log(`Error: ${e}`);
             instructionLimit = true;
         }
         if (i != 0 && i % 10 == 0) console.log(`lid1: ${i}/* ${await simple.size()}`);
@@ -96,6 +98,7 @@ export async function li1() {
             const sI = await watcher.stopTimer();
             writerI.writeLine(i * size + 1, sI, cI);
         } catch (e) {
+            console.log(`Error: ${e}`);
             instructionLimit = true;
         }
         if (i != 0 && i % 10 == 0) console.log(`lid1: ${i}/* ${await simple.size()}`);

@@ -39,6 +39,7 @@ export async function mib() {
             const sS = await watcher.stopTimer();
             writerIS.writeLine((i + 1) * size, sS, c);
         } catch (e) {
+            console.log(`Error: ${e}`);
             instructionLimit = true;
         }
         if (i != 0 && i % 10 == 0) console.log(`mib: ${i}/* ${await simple.size()}`);
@@ -72,10 +73,11 @@ export async function mid1() {
             watcher.startTimer();
             const cD = await simple.delete(entities[0].sk);
             const sD = await watcher.stopTimer();
-            writerI.writeLine(i * size + 1, sD, cD);
+            writerD.writeLine(i * size + 1, sD, cD);
 
             await simple.batchPut(entities);
         } catch (e) {
+            console.log(`Error: ${e}`);
             instructionLimit = true;
         }
         if (i != 0 && i % 10 == 0) console.log(`mid1: ${i}/* ${await simple.size()}`);
