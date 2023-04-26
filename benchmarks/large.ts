@@ -72,7 +72,7 @@ export async function ld1() {
             console.log(`Error: ${e}`);
             instructionLimit = true;
         }
-        if (i != 0 && i % 10 == 0) console.log(`lid1: ${i}/* ${await simple.size()}`);
+        if (i != 0 && i % 10 == 0) console.log(`ld1: ${i}/* ${await simple.size()}`);
         i++;
     }
     console.log(`Finished Delete Benchmark (Large) (1): ${writerD.path}`);
@@ -96,12 +96,12 @@ export async function li1() {
             watcher.startTimer();
             const cI = await simple.put(entity);
             const sI = await watcher.stopTimer();
-            writerI.writeLine(i * size + 1, sI, cI);
+            writerI.writeLine(i + 1, sI, cI);
         } catch (e) {
             console.log(`Error: ${e}`);
             instructionLimit = true;
         }
-        if (i != 0 && i % 10 == 0) console.log(`lid1: ${i}/* ${await simple.size()}`);
+        if (i != 0 && i % 10 == 0) console.log(`li1: ${i}/* ${await simple.size()}`);
         i++;
     }
     console.log(`Finished Insertion Benchmark (Large) (1): ${writerI.path}`);

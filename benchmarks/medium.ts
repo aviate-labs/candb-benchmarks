@@ -3,7 +3,7 @@ import { AttributeKey, AttributeValue } from "../src/declarations/simple/simple.
 import canisterIds from "../.dfx/local/canister_ids.json";
 import { Watcher, Writer, createEntities, createSK } from "./utils";
 
-const size = 50, scanSize = 20n;
+const size = 500, scanSize = 200n;
 const attributes: [AttributeKey, AttributeValue][] = [["name", { "blob": new Uint8Array(1024) }]];
 
 // Insert 50 entities in a single update call, repeat until instruction limit is reached.
@@ -48,7 +48,7 @@ export async function mib() {
     console.log(`Finished Insertion Benchmark (Medium) (Batch).`);
 }
 
-// Start at 0. At each batch insertion “checkpoint” insert 1 more item, then remaining 49.
+// Start at 0. At each batch insertion “checkpoint” insert 1 more item, then remaining `size - 1`.
 export async function mid1() {
     const simple = createActor(canisterIds.mid1.local, { agentOptions: { host: "http://127.0.0.1:8000" } });
     const watcher = new Watcher(simple);
