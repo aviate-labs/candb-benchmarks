@@ -29,14 +29,14 @@ export async function lib() {
             writerI.writeLine((i + 1) * size, s, c);
 
             watcher.startTimer();
-            await simple.get(entities[0].sk);
+            const cQ = await simple.get(entities[0].sk);
             const sQ = await watcher.stopTimer();
-            writerIQ.writeLine((i + 1) * size, sQ, c);
+            writerIQ.writeLine((i + 1) * size, sQ, cQ);
 
             watcher.startTimer();
-            await simple.scan(entities[0].sk, scanSize, createSK(i, 0), createSK(i, size - 1));
+            const cS = await simple.scan(entities[0].sk, scanSize, createSK(i, 0), createSK(i, size - 1));
             const sS = await watcher.stopTimer();
-            writerIS.writeLine((i + 1) * size, sS, c);
+            writerIS.writeLine((i + 1) * size, sS, cS);
         } catch (e) {
             console.log(`Error: ${e}`);
             instructionLimit = true;
@@ -45,6 +45,43 @@ export async function lib() {
         i++;
     }
     console.log(`Finished Insertion Benchmark (Large) (Batch).`);
+}
+
+export async function libQ() {
+    const simple = createActor(canisterIds.lib.local, { agentOptions: { host: "http://127.0.0.1:8000" } });
+    const watcher = new Watcher(simple);
+    const writerIQ = new Writer("./out/lib_q.csv", true);
+    const writerIS = new Writer("./out/lib_s.csv", true);
+    if (writerIQ.fileExists()) {
+        console.log(`Skipped Insertion Benchmark Query (Large) (Batch).`);
+        return;
+    }
+    writerIQ.writeHeader(); writerIS.writeHeader();
+    console.log(`Started Insertion Benchmark Query (Large) (Batch).`);
+
+    let i = 0, instructionLimit = false;
+    while (!instructionLimit) {
+        const entities = createEntities(i, size, attributes);
+        try {
+            await simple.batchPut(entities);
+
+            watcher.startTimer();
+            const cQ = await simple.get(entities[0].sk);
+            const sQ = await watcher.stopTimer();
+            writerIQ.writeLine((i + 1) * size, sQ, cQ);
+
+            watcher.startTimer();
+            const cS = await simple.scan(entities[0].sk, scanSize, createSK(i, 0), createSK(i, size - 1));
+            const sS = await watcher.stopTimer();
+            writerIS.writeLine((i + 1) * size, sS, cS);
+        } catch (e) {
+            console.log(`Error: ${e}`);
+            instructionLimit = true;
+        }
+        if (i != 0 && i % 10 == 0) console.log(`lib_q: ${i}/* ${await simple.size()}`);
+        i++;
+    }
+    console.log(`Finished Insertion Benchmark Query (Large) (Batch).`);
 }
 
 export async function ld1() {

@@ -229,6 +229,7 @@ function display(stat) {
         newChart(newCanvas(plots, `${stat.id}TotalHeapSize`), "Total Heap Size", data, data => data.map(row => row.totalHeapSize));
         newChart(newCanvas(plots, `${stat.id}Instructions`), "Instructions", data, data => data.map(row => row.instructions));
         newChart(newCanvas(plots, `${stat.id}Cycles`), "Cycles", data, data => data.map(row => row.cycles));
+        // newChart(newCanvas(plots, `${stat.id}Time`), "Time", data, data => data.map(row => row.time / 1_000_000));
     }
     )()
 }

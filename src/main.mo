@@ -2,6 +2,7 @@ import Prim "mo:⛔";
 
 import CanDB "mo:candb/CanDB";
 import Entity "mo:candb/Entity";
+import Nat64 "mo:base/Nat64";
 
 actor {
   public shared func scale(t : Text) : async Text { t };
@@ -25,12 +26,12 @@ actor {
     countSync(func() = CanDB.delete(db, { sk }));
   };
 
-  public query func get(sk : Entity.SK) : async () {
-    ignore CanDB.get(db, { sk });
+  public query func get(sk : Entity.SK) : async Nat64 {
+    countSync(func () = ignore CanDB.get(db, { sk }));
   };
 
-  public query func scan(sk : Entity.SK, limit : Nat, skLowerBound : Entity.SK, skUpperBound : Entity.SK) : async () {
-    ignore CanDB.scan(db, { ascending = null; limit; skLowerBound; skUpperBound });
+  public query func scan(sk : Entity.SK, limit : Nat, skLowerBound : Entity.SK, skUpperBound : Entity.SK) : async Nat64 {
+    countSync(func () = ignore CanDB.scan(db, { ascending = null; limit; skLowerBound; skUpperBound }));
   };
 
   public shared func put(entity : ConsumableEntity) : async Nat64 {

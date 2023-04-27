@@ -1,6 +1,7 @@
 {
     "scripts": {
         "benchmarks": "npx ts-node benchmarks/bm.ts",
+        "benchmarks:q": "QUERY=true npx ts-node benchmarks/bm.ts",
         "check": "for i in src/*.mo ; do $(dfx cache show)/moc $(vessel sources 2>/dev/null) --check --hide-warnings $i ; done",
         "copy-csv": "cp -vR ./out/ ./dist/out/",
         "dev": "npm run copy-csv && parcel plot/index.html",

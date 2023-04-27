@@ -2,9 +2,9 @@ import { execSync } from "child_process";
 import canisterIds from "../.dfx/local/canister_ids.json";
 import { readFileSync, writeFileSync } from "fs";
 import { XDR } from "../src/xdr";
-import { sib, sip, siud1 } from "./small";
-import { mid1, mib } from "./medium";
-import { li1, ld1, lib } from "./large";
+import { sib, sibQ, sip, siud1 } from "./small";
+import { mid1, mib, mibQ } from "./medium";
+import { li1, ld1, lib, libQ } from "./large";
 
 const stdio = process.env.DEBUG ? "inherit" : "ignore";
 
@@ -38,9 +38,16 @@ export var priceICPInUSD = 0;
     };
     console.log("Done!");
 
-    await Promise.all([sib(), siud1(), sip()]);
-    await Promise.all([mib(), mid1()]);
-    await Promise.all([lib(), ld1(), li1()]);
+    if (process.env.QUERY) {
+        console.log("Running query benchmarks...");
+        await Promise.all([sibQ(), mibQ(), libQ()]);
+    } else {
+        console.log("Running update benchmarks...");
+        await Promise.all([sib(), siud1(), sip()]);
+        await Promise.all([mib(), mid1()]);
+        await Promise.all([lib(), ld1(), li1()]);
+    }
 
+    console.log("Stopping local network...");
     execSync(`dfx stop`, { stdio: "ignore" });
 })()

@@ -64,10 +64,10 @@ type AttributeKey = text;
 service : {
   batchPut: (vec ConsumableEntity) -> (nat64);
   delete: (SK) -> (nat64);
-  get: (SK) -> () query;
+  get: (SK) -> (nat64) query;
   put: (ConsumableEntity) -> (nat64);
   scale: (text) -> (text);
-  scan: (SK, nat, SK, SK) -> () query;
+  scan: (SK, nat, SK, SK) -> (nat64) query;
   size: () -> (nat) query;
   stats: () -> (nat, nat) query;
 }
