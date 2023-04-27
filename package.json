@@ -2,6 +2,8 @@
     "scripts": {
         "benchmarks": "npx ts-node benchmarks/bm.ts",
         "check": "for i in src/*.mo ; do $(dfx cache show)/moc $(vessel sources 2>/dev/null) --check --hide-warnings $i ; done",
+        "copy-csv": "cp -vR ./out/ ./dist/out/",
+        "dev": "npm run copy-csv && parcel plot/index.html",
         "generate": "npx ts-node generate.ts"
     },
     "devDependencies": {
@@ -9,7 +11,18 @@
         "@dfinity/candid": "^0.15.5",
         "@dfinity/principal": "^0.15.5",
         "@types/node": "^18.15.13",
+        "events": "^3.3.0",
+        "parcel": "^2.8.3",
+        "process": "^0.11.10",
+        "punycode": "^1.4.1",
+        "querystring-es3": "^0.2.1",
+        "stream-http": "^3.2.0",
         "ts-node": "^10.9.1",
-        "typescript": "^5.0.4"
+        "typescript": "^5.0.4",
+        "url": "^0.11.0"
+    },
+    "dependencies": {
+        "chart.js": "^4.2.1",
+        "chartjs-plugin-zoom": "^2.0.1"
     }
 }

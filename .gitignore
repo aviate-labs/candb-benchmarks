@@ -1,4 +1,5 @@
 .dfx/
+.parcel-cache/
 !.dfx/local/canister_ids.json
 .vessel/
 dist/
