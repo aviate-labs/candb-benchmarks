@@ -15,11 +15,13 @@
             padding: 0;
         }
 
-        h1 {
+        h1,
+        h2,
+        label {
             padding-left: 10px;
         }
 
-        div#plots {
+        div.plots {
             display: flex;
             flex-direction: row;
             flex-wrap: wrap;
@@ -31,8 +33,30 @@
 </head>
 
 <body>
-    <h1>Small Insertion Batch</h1>
-    <div id="plots"></div>
+    <main id="main">
+        <h1>CanDB Benchmarks</h1>
+        <label>Benchmarks
+            <select id="options">
+                <option value="none">None</option>
+                <optgroup label="Small">
+                    <option value="batch">Batch</option>
+                    <option value="query">Query</option>
+                    <option value="single">Single</option>
+                    <option value="parallel">Parallel</option>
+                </optgroup>
+                <optgroup label="Medium">
+                    <option value="batch">Batch</option>
+                    <option value="query">Query</option>
+                    <option value="single">Single</option>
+                </optgroup>
+                <optgroup label="Large">
+                    <option value="batch">Batch</option>
+                    <option value="query">Query</option>
+                    <option value="single">Single</option>
+                </optgroup>
+            </select>
+        </label>
+    </main>
     <script type="module" src="plots.js"></script>
 </body>
 

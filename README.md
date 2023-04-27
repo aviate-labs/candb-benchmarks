@@ -1,10 +1,20 @@
 # CanDB Benchmarks
 
+## Run
+
+### Benchmarks
+
 ```shell
 npm run benchmark
 ```
 
 **NOTE**: Skips any tests for which the benchmark file already exists!
+
+### Graphs
+
+```shell
+npm run dev
+```
 
 ## Files
 
