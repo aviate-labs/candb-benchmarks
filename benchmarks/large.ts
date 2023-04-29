@@ -104,7 +104,7 @@ export async function ld1() {
             watcher.startTimer();
             const cD = await simple.delete(entities[0].sk);
             const sD = await watcher.stopTimer();
-            writerD.writeLine(i * size + 1, sD, cD);
+            writerD.writeLine((i + 1) * (size - 1) + 1, sD, cD);
         } catch (e) {
             console.log(`Error: ${e}`);
             instructionLimit = true;

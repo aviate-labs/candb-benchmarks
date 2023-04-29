@@ -19,7 +19,7 @@ let packages = [
   },
   { name = "candb"
   , repo = "git@github.com:canscale/CanDB.git"
-  , version = "beta"
+  , version = "7035f0a90fced70fe84c845f48c96b1cb378e141"
   , dependencies = [ "base" ]
   }
 ]
