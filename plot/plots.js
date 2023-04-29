@@ -131,7 +131,7 @@ options.addEventListener('change', () => {
                             url: require("../out/li1.csv"),
                         });
                         return display({
-                            title: "Small Deletion Single",
+                            title: "Large Deletion Single",
                             id: "ld1",
                             url: require("../out/ld1.csv"),
                         });
