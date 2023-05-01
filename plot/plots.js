@@ -171,6 +171,20 @@ function newChart(element, label, data, map) {
                 ]
             },
             options: {
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: "Size"
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: label
+                        }
+                    }
+                },
                 plugins: {
                     zoom: {
                         pan: {
