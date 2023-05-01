@@ -2,6 +2,12 @@
 
 ## Run
 
+### Graphs
+
+```shell
+npm run dev
+```
+
 ### Benchmarks
 
 ```shell
@@ -9,12 +15,6 @@ npm run benchmark
 ```
 
 **NOTE**: Skips any tests for which the benchmark file already exists!
-
-### Graphs
-
-```shell
-npm run dev
-```
 
 ## Files
 
@@ -57,8 +57,8 @@ npm run dev
 
 ### Install a Specific DFX Version
 
-**NOTE**: Minimal requirement `0.14.0-beta.0`!
+**NOTE**: Minimal requirement `0.14.0`!
 
 ```shell
-DFX_VERSION=0.14.0-beta.0 sh -ci "$(curl -sSL https://internetcomputer.org/install.sh)"
+DFX_VERSION=0.14.0 sh -ci "$(curl -sSL https://internetcomputer.org/install.sh)"
 ```
