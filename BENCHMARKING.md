@@ -23,7 +23,7 @@ For all retrieval tests, document # of entities inserted, cycles usage, and resp
 
 For each of the tests listed in the Insertion Testing section, after each insertion checkpoint where an insertion measurement is taken, perform:
 
-* [] Get 1: CanDB.get() - retrieve a single item
+* [x] Get 1: CanDB.get() - retrieve a single item
 * [x] Scan (Get multiple): CanDB.scan() - retrieve multiple items
   * [x] Smallest Attribute, Scan 500: For smallest attribute testing, scan and return 500 results (using bounds where you know all items will exist)
   * [x] Medium Attribute, Scan 20: For medium sized attribute testing, scan and return 20 results (using bounds where you know all items will exist)
