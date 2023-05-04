@@ -1,5 +1,7 @@
 # CanDB Benchmarks
 
+To see the requirements that produced these benchmarks, see [./BENCHMARKING.md](./BENCHMARKING.md).
+
 ## Run
 
 ### Graphs
@@ -17,6 +19,7 @@ npm run benchmark
 **NOTE**: Skips any tests for which the benchmark file already exists!
 
 ## Files
+See [./BENCHMARKING.md](./BENCHMARKING.md) to match each csv file and plot with its respective benchmark requirement.
 
 | Name | Filename | Update/Query/Scan |
 |------|----------|-----|
