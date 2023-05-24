@@ -8,7 +8,7 @@ const attributes: [AttributeKey, AttributeValue][] = [["name", { "blob": new Uin
 
 // Insert 50 entities in a single update call, repeat until instruction limit is reached.
 export async function mib() {
-    const simple = createActor(canisterIds.mib.local, { agentOptions: { host: "http://127.0.0.1:8000" } });
+    const simple = createActor(canisterIds.mib.local, { agentOptions: { host: "http://127.0.0.1:4943" } });
     const watcher = new Watcher(simple);
     const writerI = new Writer("./out/mib.csv");
     const writerIQ = new Writer("./out/mib_q.csv", true);
@@ -49,7 +49,7 @@ export async function mib() {
 }
 
 export async function mibQ() {
-    const simple = createActor(canisterIds.mib.local, { agentOptions: { host: "http://127.0.0.1:8000" } });
+    const simple = createActor(canisterIds.mib.local, { agentOptions: { host: "http://127.0.0.1:4943" } });
     const watcher = new Watcher(simple);
     const writerIQ = new Writer("./out/mib_q.csv", true);
     const writerIS = new Writer("./out/mib_s.csv", true);
@@ -87,7 +87,7 @@ export async function mibQ() {
 
 // Start at 0. At each batch insertion “checkpoint” insert 1 more item, then remaining `size - 1`.
 export async function mid1() {
-    const simple = createActor(canisterIds.mid1.local, { agentOptions: { host: "http://127.0.0.1:8000" } });
+    const simple = createActor(canisterIds.mid1.local, { agentOptions: { host: "http://127.0.0.1:4943" } });
     const watcher = new Watcher(simple);
     const writerI = new Writer("./out/mi1.csv");
     const writerD = new Writer("./out/md1.csv");

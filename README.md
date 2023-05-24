@@ -13,7 +13,7 @@ npm run dev
 ### Benchmarks
 
 ```shell
-npm run benchmark
+npm run benchmarks
 ```
 
 **NOTE**: Skips any tests for which the benchmark file already exists!
@@ -52,7 +52,7 @@ See [./BENCHMARKING.md](./BENCHMARKING.md) to match each csv file and plot with 
 ```json
 {
   "local": {
-    "bind": "127.0.0.1:8000",
+    "bind": "127.0.0.1:4943",
     "type": "ephemeral"
   }
 }

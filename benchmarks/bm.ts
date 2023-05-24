@@ -1,12 +1,11 @@
 import { execSync } from "child_process";
-import canisterIds from "../.dfx/local/canister_ids.json";
 import { readFileSync, writeFileSync } from "fs";
 import { XDR } from "../src/xdr";
 import { sib, sibQ, sip, siud1 } from "./small";
 import { mid1, mib, mibQ } from "./medium";
 import { li1, ld1, lib, libQ } from "./large";
 
-const stdio = process.env.DEBUG ? "inherit" : "ignore";
+const stdio = "inherit";
 
 export const SDR = 1.35;
 export var cyclesPerICP = 0;
@@ -25,9 +24,11 @@ export var priceICPInUSD = 0;
     console.log("Starting local network... (this may take a while)");
     execSync(`dfx start --artificial-delay=0 --background --clean`, { stdio });
     console.log("Deploying canisters...");
-    execSync(`dfx deploy`, { stdio });
+    execSync(`DFX_MOC_PATH="$(vessel bin)/moc" dfx deploy`, { stdio });
     console.log("Generating declarations...");
-    execSync(`dfx generate`, { stdio });
+    execSync(`DFX_MOC_PATH="$(vessel bin)/moc" dfx generate`, { stdio });
+
+    const canisterIds = JSON.parse(readFileSync(".dfx/local/canister_ids.json", "utf-8"));
 
     // Remove the last line of each index.js file.
     for (const k of Object.keys(canisterIds)) {

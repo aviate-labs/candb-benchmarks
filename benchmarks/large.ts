@@ -7,7 +7,7 @@ const size = 3, scanSize = 2n;
 const attributes: [AttributeKey, AttributeValue][] = [["name", { "blob": new Uint8Array(500 * 1024) }]];
 
 export async function lib() {
-    const simple = createActor(canisterIds.lib.local, { agentOptions: { host: "http://127.0.0.1:8000" } });
+    const simple = createActor(canisterIds.lib.local, { agentOptions: { host: "http://127.0.0.1:4943" } });
     const watcher = new Watcher(simple);
     const writerI = new Writer("./out/lib.csv");
     const writerIQ = new Writer("./out/lib_q.csv", true);
@@ -48,7 +48,7 @@ export async function lib() {
 }
 
 export async function libQ() {
-    const simple = createActor(canisterIds.lib.local, { agentOptions: { host: "http://127.0.0.1:8000" } });
+    const simple = createActor(canisterIds.lib.local, { agentOptions: { host: "http://127.0.0.1:4943" } });
     const watcher = new Watcher(simple);
     const writerIQ = new Writer("./out/lib_q.csv", true);
     const writerIS = new Writer("./out/lib_s.csv", true);
@@ -85,7 +85,7 @@ export async function libQ() {
 }
 
 export async function ld1() {
-    const simple = createActor(canisterIds.ld1.local, { agentOptions: { host: "http://127.0.0.1:8000" } });
+    const simple = createActor(canisterIds.ld1.local, { agentOptions: { host: "http://127.0.0.1:4943" } });
     const watcher = new Watcher(simple);
     const writerD = new Writer("./out/ld1.csv");
     if (writerD.fileExists()) {
@@ -116,7 +116,7 @@ export async function ld1() {
 }
 
 export async function li1() {
-    const simple = createActor(canisterIds.li1.local, { agentOptions: { host: "http://127.0.0.1:8000" } });
+    const simple = createActor(canisterIds.li1.local, { agentOptions: { host: "http://127.0.0.1:4943" } });
     const watcher = new Watcher(simple);
     const writerI = new Writer("./out/li1.csv");
     if (writerI.fileExists()) {
