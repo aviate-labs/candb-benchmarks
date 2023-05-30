@@ -4,19 +4,52 @@
     "canisters": {
         "simple": {
             "type": "motoko",
-            "main": "src/main.mo"
+            "main": "src/main.mo",
+            "args" : "--incremental-gc"
         },
 
-        "sib": { "type": "motoko", "main": "src/main.mo" },
-        "siud1": { "type": "motoko", "main": "src/main.mo" },
-        "sip": { "type": "motoko", "main": "src/main.mo" },
+        "sib": {
+            "type": "motoko",
+            "main": "src/main.mo",
+            "args" : "--incremental-gc"
+        },
+        "siud1": {
+            "type": "motoko",
+            "main": "src/main.mo",
+            "args" : "--incremental-gc"
+        },
+        "sip": {
+            "type": "motoko",
+            "main": "src/main.mo",
+            "args" : "--incremental-gc"
+        },
 
-        "mib": { "type": "motoko", "main": "src/main.mo" },
-        "mid1": { "type": "motoko", "main": "src/main.mo" },
+        "mib": {
+            "type": "motoko",
+            "main": "src/main.mo",
+            "args" : "--incremental-gc"
+        },
+        "mid1": {
+            "type": "motoko",
+            "main": "src/main.mo",
+            "args" : "--incremental-gc"
+        },
 
-        "lib": { "type": "motoko", "main": "src/main.mo" },
-        "ld1": { "type": "motoko", "main": "src/main.mo" },
-        "li1": { "type": "motoko", "main": "src/main.mo" }
+        "lib": {
+            "type": "motoko",
+            "main": "src/main.mo",
+            "args" : "--incremental-gc"
+        },
+        "ld1": {
+            "type": "motoko",
+            "main": "src/main.mo",
+            "args" : "--incremental-gc"
+        },
+        "li1": {
+            "type": "motoko",
+            "main": "src/main.mo",
+            "args" : "--incremental-gc"
+        }
     },
     "defaults": {
         "build": {

@@ -13,7 +13,7 @@ npm run dev
 ### Benchmarks
 
 ```shell
-npm run benchmark
+npm run benchmarks
 ```
 
 **NOTE**: Skips any tests for which the benchmark file already exists!

@@ -1,4 +1,4 @@
 {
   dependencies = [ "base", "candb", "stable-rbtree", "btree" ],
-  compiler = Some "0.8.7"
+  compiler = Some "0.9.1"
 }
