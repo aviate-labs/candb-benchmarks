@@ -8,7 +8,7 @@ const attributes: [AttributeKey, AttributeValue][] = [["name", { "bool": true }]
 
 // Insert 5k entities in a single update call, repeat until instruction limit is reached.
 export async function sib() {
-    const simple = createActor(canisterIds.sib.local, { agentOptions: { host: "http://127.0.0.1:4943" } });
+    const simple = createActor(canisterIds.sib.local, { agentOptions: { host: "http://127.0.0.1:8000" } });
     const watcher = new Watcher(simple);
     const writerI = new Writer("./out/sib.csv");
     const writerIQ = new Writer("./out/sib_q.csv", true);
@@ -49,7 +49,7 @@ export async function sib() {
 }
 
 export async function sibQ() {
-    const simple = createActor(canisterIds.sib.local, { agentOptions: { host: "http://127.0.0.1:4943" } });
+    const simple = createActor(canisterIds.sib.local, { agentOptions: { host: "http://127.0.0.1:8000" } });
     const watcher = new Watcher(simple);
     const writerIQ = new Writer("./out/sib_q.csv", true);
     const writerIS = new Writer("./out/sib_s.csv", true);
@@ -87,7 +87,7 @@ export async function sibQ() {
 
 // Start at 0. At each batch insertion “checkpoint” (0, 5k, 10k, etc.) insert 1 more item, then remaining 4_999.
 export async function siud1() {
-    const simple = createActor(canisterIds.siud1.local, { agentOptions: { host: "http://127.0.0.1:4943" } });
+    const simple = createActor(canisterIds.siud1.local, { agentOptions: { host: "http://127.0.0.1:8000" } });
     const watcher = new Watcher(simple);
     const writerI = new Writer("./out/si1.csv");
     const writerU = new Writer("./out/su1.csv");
@@ -133,7 +133,7 @@ export async function siud1() {
 // (using Promise.all()) where each call inserts a single entity to CanDB, then remaining 4_900.
 // Start at 0. At each batch insertion “checkpoint” (0, 5k, 10k, etc.) insert 1 more item, then remaining 4_999.
 export async function sip() {
-    const simple = createActor(canisterIds.sip.local, { agentOptions: { host: "http://127.0.0.1:4943" } });
+    const simple = createActor(canisterIds.sip.local, { agentOptions: { host: "http://127.0.0.1:8000" } });
     const watcher = new Watcher(simple), writer = new Writer("./out/sip.csv");
     if (writer.fileExists()) {
         console.log(`Skipped Insertion Benchmark (Small) (Parallel): ${writer.path}`);

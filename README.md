@@ -52,7 +52,7 @@ See [./BENCHMARKING.md](./BENCHMARKING.md) to match each csv file and plot with 
 ```json
 {
   "local": {
-    "bind": "127.0.0.1:4943",
+    "bind": "127.0.0.1:8000",
     "type": "ephemeral"
   }
 }

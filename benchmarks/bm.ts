@@ -5,7 +5,7 @@ import { sib, sibQ, sip, siud1 } from "./small";
 import { mid1, mib, mibQ } from "./medium";
 import { li1, ld1, lib, libQ } from "./large";
 
-const stdio = "inherit";
+const stdio = process.env.DEBUG ? "inherit" : "ignore";
 
 export const SDR = 1.35;
 export var cyclesPerICP = 0;
